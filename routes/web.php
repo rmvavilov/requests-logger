@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Helpers\Logger;
+use App\Http\Controllers\LoggerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,4 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('/log', function () {
-    \App\Models\UserRequest::log();
-});
+Route::get('/' . Logger::IMAGE_URL, [LoggerController::class, 'log'])->name('logger');
