@@ -8,7 +8,7 @@ class Logger
 {
     const REAL_IMAGE_PATH = 'img/transparent.gif';
 
-    protected string $userId = '';
+    protected ?string $userId = null;
     protected string $userAgentName = '';
     protected string $ip = '';
     protected array $headers = [];
@@ -17,17 +17,17 @@ class Logger
     //region [GETTERS/SETTERS]
 
     /**
-     * @return mixed|string
+     * @return string|null
      */
-    public function getUserId()
+    public function getUserId(): ?string
     {
         return $this->userId;
     }
 
     /**
-     * @param mixed|string $userId
+     * @param string|null $userId
      */
-    public function setUserId($userId): void
+    public function setUserId(?string $userId): void
     {
         $this->userId = $userId;
     }
