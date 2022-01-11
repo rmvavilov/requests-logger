@@ -1,1 +1,1 @@
-<img src="{{ route('logger') }}" alt="logger pixel">
+<img src="{{ route('logger', ['userId' => auth()->user()->id ?? '']) }}" alt="logger pixel">
