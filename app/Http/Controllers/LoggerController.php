@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Logger;
+use App\Jobs\RequestLogger;
 
 class LoggerController extends Controller
 {
     public function log()
     {
-        Logger::logRequest();
+        RequestLogger::dispatch(new Logger());
 
         return response()
             ->file(
