@@ -10,14 +10,23 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    @if(\Route::currentRouteName() === 'statistics.index')
+        <script src="{{ mix('js/statistics.js') }}" defer></script>
+    @else
+        <script src="{{ asset('js/app.js') }}" defer></script>
+    @endif
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @if(\Route::currentRouteName() === 'statistics.index')
+        <link href="{{ mix('css/statistics.css') }}" rel="stylesheet">
+    @else
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @endif
+
 </head>
 <body>
     <div id="app">
@@ -33,7 +42,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <li class="nav-item active">
+                            <a class="nav-link @if(\Route::currentRouteName() === 'home') active @endif" href="{{ route('home') }}">Home</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link @if(\Route::currentRouteName() === 'statistics.index') active @endif" href="{{ route('statistics.index') }}">Statistics</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

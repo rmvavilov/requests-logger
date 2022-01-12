@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoggerController;
+use App\Http\Controllers\StatisticController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/logger/pixel', [LoggerController::class, 'log'])->name('logger');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('statistics', [StatisticController::class, 'index'])->name('statistics.index');
+    Route::get('statistics/requests', [StatisticController::class, 'requests'])->name('requests.index');
+});

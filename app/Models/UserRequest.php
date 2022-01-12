@@ -17,6 +17,10 @@ class UserRequest extends Model
         'created_at',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
     //region [RELATIONSHIPS]
     public function userAgent()
     {
