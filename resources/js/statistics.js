@@ -26,6 +26,8 @@ import {VuejsDatatableFactory} from 'vuejs-datatable';
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('datatable-component', require('./components/DataTableComponent.vue').default);
+Vue.component('chart-wrap-component', require('./components/charts/ChartWrapComponent').default);
+Vue.component('doughnut-chart-component', require('./components/charts/DoughnutChartComponent').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -34,15 +36,45 @@ Vue.component('datatable-component', require('./components/DataTableComponent.vu
  */
 
 Vue.use(VuejsDatatableFactory);
+Vue.prototype.$eventBus = new Vue();
 
 const app = new Vue({
     el: '#app',
 
     data: {
+        isFetching: true,
         requests: [],
+        browsers: [],
+        devices: [],
+        platforms: [],
+    },
+
+    methods: {
+        fetchUserAgents() {
+            this.isFetching = true;
+
+            axios({
+                method: 'get',
+                url: '/statistics/user-agents',
+            }).then(response => {
+                this.browsers = _.get(response, 'data.browsers', []);
+                this.devices = _.get(response, 'data.devices', []);
+                this.platforms = _.get(response, 'data.platforms', []);
+
+                setTimeout(() => {
+                    this.$eventBus.$emit('redraw_chart');
+                }, 500);
+
+                this.isFetching = false;
+            })
+        },
     },
 
     created() {
         axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    },
+
+    mounted() {
+        this.fetchUserAgents();
     },
 });

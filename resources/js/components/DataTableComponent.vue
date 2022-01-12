@@ -1,5 +1,5 @@
 <template>
-    <div class="card mt-5">
+    <div class="card">
         <div class="card-header">Users requests</div>
         <div class="card-body">
             <template v-if="isFetching">
@@ -7,7 +7,6 @@
             </template>
             <template v-else>
                 <datatable :columns="requests.columns" :data="requests.rows"></datatable>
-                <button class="btn btn-primary" @click="fetchAllData">Refresh</button>
             </template>
         </div>
     </div>

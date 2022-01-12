@@ -27,4 +27,5 @@ Route::get('/logger/pixel', [LoggerController::class, 'log'])->name('logger');
 Route::middleware(['auth'])->group(function () {
     Route::get('statistics', [StatisticController::class, 'index'])->name('statistics.index');
     Route::get('statistics/requests', [StatisticController::class, 'requests'])->name('requests.index');
+    Route::get('statistics/user-agents', [StatisticController::class, 'userAgentStatistics'])->name('requests.user-agents');
 });
