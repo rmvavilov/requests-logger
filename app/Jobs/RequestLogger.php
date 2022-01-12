@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Helpers\Logger;
+use Illuminate\Http\Request;
 use App\Models\UserRequest;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -15,25 +15,48 @@ class RequestLogger implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected Logger $logger;
+    const REAL_IMAGE_PATH = 'img/transparent.gif';
+
+    protected array $data = [];
+
+    //region [GETTERS/SETTERS]
+
+    /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData(array $data): void
+    {
+        $this->data = $data;
+    }
+
+    //endregion [GETTERS/SETTERS]
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Logger $logger)
+    public function __construct(Request $request)
     {
-        $this->logger = $logger;
+        $this->setData([
+            'user_id' => $request->get('userId'),
+            'user_agent_name' => $request->userAgent(),
+            'ip' => $request->ip(),
+            'headers' => $request->headers->all(),
+            'created_at' => now(),
+        ]);
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
-        UserRequest::log($this->logger);
+        UserRequest::log($this->data);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Helpers\Logger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,18 +25,17 @@ class UserRequest extends Model
 
     //endregion [RELATIONSHIPS]
 
-    public static function log(Logger $logger)
+    public static function log(array $data)
     {
-        $userAgent = UserAgent::getModel($logger->getUserAgentName());
-        $userId = $logger->getUserId();
+        $userAgent = UserAgent::getModel($data['user_agent_name'] ?? '');
 
         return UserRequest::query()
             ->create([
-                'user_id' => $userId,
+                'user_id' => $data['user_id'] ?? null,
                 'user_agent_id' => $userAgent->id,
-                'ip' => $logger->getIp(),
-                'headers' => json_encode($logger->getHeaders()),
-                'created_at' => $logger->getCreatedAt()
+                'ip' => $data['ip'] ?? '',
+                'headers' => json_encode($data['headers'] ?? []),
+                'created_at' => $data['created_at']
             ]);
     }
 
