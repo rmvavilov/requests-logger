@@ -44,9 +44,9 @@ const app = new Vue({
     data: {
         isFetching: true,
         requests: [],
-        browsers: [],
-        devices: [],
-        platforms: [],
+        browsers: {today: [], all: []},
+        devices: {today: [], all: []},
+        platforms: {today: [], all: []},
     },
 
     methods: {
@@ -57,9 +57,12 @@ const app = new Vue({
                 method: 'get',
                 url: '/statistics/user-agents',
             }).then(response => {
-                this.browsers = _.get(response, 'data.browsers', []);
-                this.devices = _.get(response, 'data.devices', []);
-                this.platforms = _.get(response, 'data.platforms', []);
+                this.browsers.today = _.get(response, 'data.today.browsers', []);
+                this.browsers.all = _.get(response, 'data.all.browsers', []);
+                this.devices.today = _.get(response, 'data.today.devices', []);
+                this.devices.all = _.get(response, 'data.all.devices', []);
+                this.platforms.today = _.get(response, 'data.today.platforms', []);
+                this.platforms.all = _.get(response, 'data.all.platforms', []);
 
                 setTimeout(() => {
                     this.$eventBus.$emit('redraw_chart');

@@ -6,7 +6,7 @@
                 <div class="spinner-border text-primary" role="status"></div>
             </template>
             <template v-else>
-                <datatable :columns="requests.columns" :data="requests.rows"></datatable>
+                <datatable class="w-100" :columns="requests.columns" :data="requests.rows"></datatable>
             </template>
         </div>
     </div>

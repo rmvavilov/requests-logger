@@ -26,6 +26,10 @@ class UserAgent extends Model
         'is_desktop',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
     public static function getModel(string $userAgentString): UserAgent
     {
         $userAgentString = trim($userAgentString);
