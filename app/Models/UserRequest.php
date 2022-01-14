@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserRequest extends Model
 {
@@ -21,26 +22,8 @@ class UserRequest extends Model
         'created_at' => 'datetime:Y-m-d H:i:s',
     ];
 
-    //region [RELATIONSHIPS]
-    public function userAgent()
+    public function userAgent(): BelongsTo
     {
         return $this->belongsTo(UserAgent::class);
     }
-
-    //endregion [RELATIONSHIPS]
-
-    public static function log(array $data)
-    {
-        $userAgent = UserAgent::getModel($data['user_agent_name'] ?? '');
-
-        return UserRequest::query()
-            ->create([
-                'user_id' => $data['user_id'] ?? null,
-                'user_agent_id' => $userAgent->id,
-                'ip' => $data['ip'] ?? '',
-                'headers' => json_encode($data['headers'] ?? []),
-                'created_at' => $data['created_at']
-            ]);
-    }
-
 }

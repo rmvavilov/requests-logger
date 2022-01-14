@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Agent\Agent;
 
+/**
+ * @property int $id
+ */
 class UserAgent extends Model
 {
     use HasFactory;
@@ -29,24 +32,6 @@ class UserAgent extends Model
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
     ];
-
-    public static function getModel(string $userAgentString): UserAgent
-    {
-        $userAgentString = trim($userAgentString);
-        /* @var UserAgent $userAgent */
-        $userAgent = UserAgent::query()->where('name', $userAgentString)->first();
-
-        if ($userAgent) {
-            return $userAgent;
-        }
-
-        $fields = array_merge(
-            ['name' => $userAgentString],
-            UserAgent::generateFields($userAgentString)
-        );
-
-        return UserAgent::query()->create($fields);
-    }
 
     public static function generateFields(string $userAgentString): array
     {

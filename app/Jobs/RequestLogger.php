@@ -2,7 +2,8 @@
 
 namespace App\Jobs;
 
-use Illuminate\Http\Request;
+use App\Repositories\UserRequestRepository;
+use Carbon\Carbon;
 use App\Models\UserRequest;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -36,7 +37,6 @@ class RequestLogger implements ShouldQueue
     {
         $this->data = $data;
     }
-
     //endregion [GETTERS/SETTERS]
 
     /**
@@ -44,19 +44,25 @@ class RequestLogger implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Request $request)
+    public function __construct(
+        int    $userId,
+        string  $userAgentName,
+        string $ip,
+        array   $headers,
+        Carbon  $createdAt
+    )
     {
         $this->setData([
-            'user_id' => $request->get('userId'),
-            'user_agent_name' => $request->userAgent(),
-            'ip' => $request->ip(),
-            'headers' => $request->headers->all(),
-            'created_at' => now(),
+            'user_id' => $userId,
+            'user_agent_name' => $userAgentName,
+            'ip' => $ip,
+            'headers' => $headers,
+            'created_at' => $createdAt,
         ]);
     }
 
     public function handle()
     {
-        UserRequest::log($this->data);
+        UserRequestRepository::log($this->data);
     }
 }

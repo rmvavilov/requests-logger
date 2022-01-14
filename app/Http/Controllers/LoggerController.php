@@ -9,7 +9,13 @@ class LoggerController extends Controller
 {
     public function log(Request $request)
     {
-        RequestLogger::dispatch($request);
+        RequestLogger::dispatch(
+            $request->get('userId'),
+            $request->userAgent(),
+            $request->ip(),
+            $request->headers->all(),
+            now(),
+        );
 
         return response()
             ->file(
