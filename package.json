@@ -25,7 +25,8 @@
     },
     "dependencies": {
         "chart.js": "2.9.4",
-        "vue-chartjs": "^3.5.1",
+        "node-forge": ">=1.0.0",
+        "vue-chartjs": "3.5.1",
         "vuejs-datatable": "^2.0.0-alpha.7"
     }
 }
