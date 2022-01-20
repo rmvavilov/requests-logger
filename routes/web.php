@@ -16,7 +16,7 @@ use App\Http\Controllers\StatisticController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    Redirect::to('home');
 });
 
 Auth::routes();
